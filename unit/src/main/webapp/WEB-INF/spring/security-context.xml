@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	<bean id="successHandler" class="com.company.service.LoginSuccessHandler"/>
+	<bean id="deniedHandler" class="com.company.service.DeniedHandler"/>
+	<bean id="customUserDetails" class="com.company.service.CustomUserDetailsService"/>
+	<bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+	<bean id="LoginFailHandler" class="com.company.service.LoginFailHandler"/>
+	
+	<security:http>
+		<security:intercept-url pattern="/security/all" access="permitAll"/>
+		<security:intercept-url pattern="/security/admin" access="hasRole('ROLE_ADMIN')"/>
+		<security:intercept-url pattern="/sales/sales_myread" access="isAuthenticated()"/>
+		
+		<security:access-denied-handler ref="deniedHandler"/>
+		<security:form-login login-page="/join/sales_login" authentication-success-handler-ref="successHandler" authentication-failure-handler-ref="LoginFailHandler"/>
+		<security:logout logout-url="/talentSales/logout" logout-success-url="/talentSales/main" invalidate-session="true" />
+		
+	</security:http>
+	
+	<security:authentication-manager>
+		<security:authentication-provider user-service-ref="customUserDetails">
+			<security:password-encoder ref="bCryptPasswordEncoder"/>
+		</security:authentication-provider>
+	</security:authentication-manager>
+	
+</beans>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.company.mapper.TalentSalesMapper">
+  	<select id="list" resultType="TalentsalesDto">
+  	<!-- 	select * from talentsales join salesimg on talentsales.salesNum = salesimg.salesNum join salesmaincategory on salesmaincategory.salesNum = talentsales.salesNum join salessubcategory on salessubcategory.salesMainCategoryNum = salesmaincategory.salesMainCategoryNum ; -->
+  		select * from talentsales2 ;
+  	</select>
+  	
+  	<insert id="insert">
+  		insert into talentsales2 (salesTitle, salesInfo, salesCurriculum, salesPrice, salesMainCategory, salesSubCategory, salesImg, salesJoinIp, userNum) VALUES ( #{salesTitle}, #{salesInfo}, #{salesCurriculum}, #{salesPrice}, #{salesMainCategory}, #{salesSubCategory}, #{salesImg}, #{salesJoinIp}, #{userNum} );
+  	</insert>
+  	
+  	<select id="readMyselect" resultType="TalentsalesDto">
+ 		select * from talentsales2 where userNum=#{userNum}
+ 	</select>
+ 	<!-- 마이페이지에서 나의 게시글 -->
+ 	<select id="readOne" resultType="TalentsalesDto">
+ 		select * from talentsales2 where userNum=#{userNum} and salesNum=#{salesNum}
+ 	</select>
+ 	<!-- 메인에서 누구나 볼 수 있는 판매글 -->
+ 	<select id="selectOne" resultType="TalentsalesDto">
+ 		select * from talentsales2 where salesNum=#{salesNum}
+ 	</select>
+ 	
+ 	<update id="update">
+  		update talentsales2 set salesTitle =#{salesTitle}, salesInfo =#{salesInfo}, salesCurriculum =#{salesCurriculum}, salesPrice =#{salesPrice}, salesMainCategory =#{salesMainCategory}, salesSubCategory =#{salesSubCategory}, salesImg =#{salesImg} where userNum=#{userNum} and salesNum=#{salesNum};
+  	</update>
+  	
+  	<delete id="delete">
+  		delete from talentsales2 where userNum=#{userNum} and salesNum=#{salesNum};
+  	</delete>	
+  	
+  	<!-- Paging -->
+  	<select id="paginglist" resultType="TalentsalesDto">
+	select * from talentsales2;
+	</select>
+	
+	<select id="listSum" resultType="int">
+		select count(*) from talentsales2;
+	</select>
+	
+	<select id="list10" resultType="TalentsalesDto" parameterType="java.util.HashMap">
+		select * from talentsales2 order by salesNum desc limit #{pstartno} , #{onepageList}
+	</select>
+
+  	
+  	<!--  
+  	<insert id="insertImg">
+  	insert into salesimg (salesImgTitle, salesNum) VALUES (#{salesImgTitle}, #{salesNum});
+  	 </insert>
+  	 
+  	 <insert id="insertMaincategory">
+  	 insert into salesmaincategory (salesMainCategoryTitle, salesNum) VALUES (#{salesMainCategoryTitle}, #{salesNum});
+  	</insert>
+  	 
+  	 <insert id="insertSubcategory">
+  	insert into salessubcategory (salesSubCategoryTitle, salesMainCategoryNum) VALUES (#{salesSubCategoryTitle}, #{salesMainCategoryNum});
+  	 </insert> -->
+ 	
+ 	<!-- 
+ 	<update id="updateBhit">
+      update mvcboard1 set bhit=bhit+1 where bno=#{bno}
+   </update>
+  	 -->
+  	
+  	
+  	
+  </mapper>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.company.mapper.JoinMapper">
+  	
+  	<select id="selectall" resultType="JoinDto">
+  		select * from joinboard;
+  	</select>
+  	
+  	<select id="selectTwo2" resultType="JoinDto">
+ 		select * from joinboard where jnicname = #{jnicname} and jpassward = #{jpassward}
+ 	</select>
+ 	
+  	<insert id="insert">
+  		insert into joinboard ( jemail, jpassward, jnicname, jphone_num, jjob, jip, jevent_ad_check) values ( #{jemail}, #{jpassward}, #{jnicname}, #{jphone_num}, #{jjob}, #{jip}, #{jevent_ad_check} );
+  	</insert>
+
+ 	<select id="selectEmail" resultType="JoinDto">
+ 		select * from joinboard where jemail=#{jemail}
+ 	</select>
+ 	
+ 	<select id="selectTwo" resultType="JoinDto">
+ 		select * from joinboard where jemail = #{jemail} and jpassward = #{jpassward}
+ 	</select>
+ 	
+  	<select id="idCheck" resultType="JoinDto">
+ 		select count(*) from joinboard where jnicname=#{jnicname}
+ 	</select>
+ 	
+ 	<update id="emailCheck_update">
+  		update joinboard set jcertification =#{jcertification} where jemail=#{jemail};
+  	</update>
+ 	
+ 	<select id="emailCheck" resultType="JoinDto">
+ 		select count(*), jcertification from joinboard where jemail = #{jemail}
+ 	</select>
+ 	
+ 	<update id="update">
+  		update joinboard set jjob = #{jjob} , jphone_num= #{jphone_num} , jevent_ad_check =#{jevent_ad_check} where jno=#{jno};
+  	</update>
+  	
+  	<update id="update2">
+  	update joinboard set jcertification =#{jcertification} where jemail=#{jemail}
+  	</update>
+  
+  	<update id="passwordUpdate">
+  	update joinboard set jpassward = #{jpassward} where jemail=#{jemail}
+  	</update>
+  	
+  	<delete id="delete">
+  	delete from joinboard where jno = #{jno} and jpassward = #{jpassward}
+  	</delete>	
+  	
+  	<resultMap type="MemberVO" id="memberMap">
+		<id property="userid" column="userid"/>
+		<result property="userid" column="userid"/>
+		<result property="userpw" column="userpw"/>
+		<collection property="authList" resultMap="authMap"/>
+	</resultMap>
+
+	<resultMap type="AuthVO" id="authMap">
+		<result property="userid" column="userid"/>
+		<result property="auth" column="auth"/>
+	</resultMap>
+	
+	<select id="read_security" resultMap="memberMap">
+		select us.userid, userpw, auth from users as us left outer join uauthorities as ua using(userid) where us.userid=#{userid}
+	</select>
+	
+	<update id="salseupdate">
+  		update joinboard set salesId = '등록완료' where jnicname=#{jnicname}
+  	</update>
+  	
+  	<select id="selectNic" resultType="JoinDto">
+ 		select * from joinboard where jnicname=#{jnicname}
+ 	</select>
+  	
+  	<insert id="insertMember">
+		insert into users(userid, userpw) values(#{userid}, #{userpw})
+	</insert>
+	
+	<update id="updateMember">
+		update users set userpw =#{userpw} where userid=#{userid}
+	</update>
+	
+	<insert id="insertAuth">
+		insert into uauthorities(userid, auth) values(#{userid}, #{auth})	
+	</insert>
+	
+	<select id="selectUserid" resultType="MemberVO">
+ 		select * from users where userid=#{userid}
+ 	</select>
+ 	
+ 	<select id="selectAuthid" resultType="AuthVO">
+ 		select * from uauthorities where userid=#{userid}
+ 	</select>
+ 	
+ 	<update id="updateAuth">
+  		update uauthorities set auth = #{auth} where userid=#{userid}
+  	</update>
+	
+	<!-- 
+	select jjop from table where id(salesid, nicname)
+	
+	
+	 -->
+  	
+  </mapper>

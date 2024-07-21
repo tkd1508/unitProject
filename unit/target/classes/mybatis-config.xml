@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias alias="PagingDto" type="com.company.dto.PagingDto" />
+		<typeAlias alias="JoinDto" type="com.company.dto.JoinDto" />  
+		<typeAlias alias="TalentsalesDto" type="com.company.dto.TalentsalesDto"/>
+		<typeAlias alias="TestDto" type="com.company.dto.TestDto"/>
+		<typeAlias alias="MemberVO" type="com.company.dto.MemberVO"/>	
+		<typeAlias alias="AuthVO" type="com.company.dto.AuthVO"/>	
+		
+	</typeAliases>
+</configuration>
